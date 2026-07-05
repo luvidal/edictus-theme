@@ -134,7 +134,7 @@ function brandContrast(brand: Rgb): Rgb {
 // white-on-orange = 3.11 < 4.5 but >= 3) gets the expected white; a PALE brand
 // (white-on-it < 3) falls back to the AA-strict dark, so white-on-pale never
 // happens. Dark mode keeps the AA-strict brandContrast pick, so dark-mode
-// accessibility is unchanged — this mirrors the established @jogi/ui pattern
+// accessibility is unchanged — this mirrors the established @edictus/ui pattern
 // (`text-brand-contrast light:text-white`) but resolves per-tenant + pale-safe.
 function brandOn(brand: Rgb, mode: ThemeMode): Rgb {
   if (mode === 'light' && contrastRatio(brand, CONTRAST_LIGHT) >= 3) return CONTRAST_LIGHT
