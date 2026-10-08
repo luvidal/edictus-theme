@@ -1,5 +1,7 @@
 # @edictus/theme
 
+**English** · [Español](README.es.md)
+
 Brand-neutral theme engine. It turns a tenant's brand color into a complete set
 of CSS variables for light and dark mode, using OKLCH color math and WCAG
 contrast checks. It has no runtime dependencies and no framework, DOM or cookie
