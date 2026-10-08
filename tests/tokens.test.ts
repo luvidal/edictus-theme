@@ -121,7 +121,7 @@ describe('light two-band remap — chrome stays clearly grayer than the surfaces
   const specs = [
     ['edictus', THEME_SPECS.edictus],
     ['jogi', THEME_SPECS.jogi],
-    ['myv-orange', resolveThemeSpec('#fd5d03', true)],
+    ['orange-brand', resolveThemeSpec('#fd5d03', true)],
   ] as const
 
   it('every region sits below every surface in light (bands do not overlap)', () => {
@@ -146,7 +146,7 @@ describe('light two-band remap — chrome stays clearly grayer than the surfaces
 })
 
 describe('brand-contrast passes AA for every shipped accent hue', () => {
-  // jogi sky, edictus gray, and a sweep of tenant hues incl. MyV orange (#fd5d03).
+  // jogi sky, edictus gray, and a sweep of tenant hues incl. a saturated orange (#fd5d03).
   const specs = [
     THEME_SPECS.jogi,
     THEME_SPECS.edictus,
@@ -169,7 +169,7 @@ describe('--brand-on: conventional white on saturated brand fills, pale-safe', (
     ...[0, 30, 60, 120, 180, 240, 300, hexToHue('#fd5d03')!].map(customSpec),
   ]
 
-  it('MyV orange → white in light, AA-strict dark in dark (dark unchanged)', () => {
+  it('saturated orange → white in light, AA-strict dark in dark (dark unchanged)', () => {
     const dark = buildThemeTokens(resolveThemeSpec('#fd5d03', true), 'dark')
     const light = buildThemeTokens(resolveThemeSpec('#fd5d03', true), 'light')
     expect(dark['--brand-on']).toBe(dark['--brand-contrast']) // dark keeps the AA token
@@ -287,7 +287,7 @@ describe('a custom tenant color pins --brand to the REAL color (not the washed r
   it('--brand is the exact tenant color, constant across modes, AA-legible', () => {
     for (const mode of ['dark', 'light'] as const) {
       const t = buildThemeTokens(resolveThemeSpec('#fd5d03', true), mode)
-      // MyV orange #fd5d03 = 253 93 3 — NOT the salmon the hue-only ramp produced.
+      // Orange #fd5d03 = 253 93 3 — NOT the salmon the hue-only ramp produced.
       expect(t['--brand'], mode).toBe('253 93 3')
       expect(t['--brand-muted'], mode).toBe('253 93 3')
       expect(t['--border-focus'], mode).toBe('253 93 3')

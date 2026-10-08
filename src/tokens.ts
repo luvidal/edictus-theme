@@ -34,7 +34,7 @@ export interface ThemeSpec {
   brand?: Rgb | null // tenant's ACTUAL brand color; pins --brand* to it (constant
   // across modes) instead of the ramp's theme-400. null -> use the ramp step (jogi
   // sky / eDictus gray). Set only for real custom tenants so vivid warm brands
-  // (e.g. MyV orange) render true, not washed to the sky lightness profile.
+  // (e.g. a saturated orange) render true, not washed to the sky lightness profile.
 }
 
 // Reference accent hue of today's sky ramp; jogi rotates by 0 -> exact parity.
@@ -130,7 +130,7 @@ function brandContrast(brand: Rgb): Rgb {
 
 // `--brand-on`: the foreground for CTAs / chips / badges sitting ON the brand
 // fill (buttons read as conventional white-on-brand). Like brandContrast but at
-// the AA-LARGE 3:1 threshold *in light mode only* — a saturated brand (MyV orange,
+// the AA-LARGE 3:1 threshold *in light mode only* — a saturated brand (orange
 // white-on-orange = 3.11 < 4.5 but >= 3) gets the expected white; a PALE brand
 // (white-on-it < 3) falls back to the AA-strict dark, so white-on-pale never
 // happens. Dark mode keeps the AA-strict brandContrast pick, so dark-mode
