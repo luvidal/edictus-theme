@@ -15,7 +15,7 @@ declare function shiftLightness([r, g, b]: Rgb, dL: number): Rgb;
 declare function relLuminance([r, g, b]: Rgb): number;
 declare function contrastRatio(a: Rgb, b: Rgb): number;
 declare const THEME_PRESETS: {
-    readonly jogi: {
+    readonly classic: {
         readonly chromeHue: 218;
         readonly chromeChroma: 0.03;
     };
@@ -41,7 +41,7 @@ interface ThemeSpec {
 }
 declare function buildThemeTokens(spec: ThemeSpec, mode?: ThemeMode): Record<string, string>;
 declare const THEME_SPECS: {
-    readonly jogi: {
+    readonly classic: {
         readonly chromeHue: 261;
         readonly chromeChroma: 1;
         readonly accentHue: 237;

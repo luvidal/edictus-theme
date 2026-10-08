@@ -17,7 +17,7 @@
 // encode meaning, not identity, so they are NOT generated here — they get a
 // hand-tuned `[data-theme="light"]` block in styles/tokens.css instead.
 //
-// Parity: at the `jogi` spec + `dark` this reproduces styles/tokens.css (accent
+// Parity: at the `classic` spec + `dark` this reproduces styles/tokens.css (accent
 // ramp + text/border exactly, surfaces within rounding) — see tokens.test.ts.
 // Status tokens, type, radius, spacing are NOT generated here.
 
@@ -28,17 +28,17 @@ export type ThemeMode = 'dark' | 'light'
 
 export interface ThemeSpec {
   chromeHue: number // OKLCH hue for the surface ladder (only used when chromeChroma > 0)
-  chromeChroma: number // multiplier on the surface chroma arc: 1 = jogi blue-gray, 0 = neutral gray
-  accentHue: number // nominal accent hue; rotates the whole ramp by (accentHue - JOGI_ACCENT_HUE)
+  chromeChroma: number // multiplier on the surface chroma arc: 1 = classic blue-gray, 0 = neutral gray
+  accentHue: number // nominal accent hue; rotates the whole ramp by (accentHue - CLASSIC_ACCENT_HUE)
   accentChroma: number // multiplier on the accent chroma arc: 1 = colored, 0 = neutral gray
   brand?: Rgb | null // tenant's ACTUAL brand color; pins --brand* to it (constant
-  // across modes) instead of the ramp's theme-400. null -> use the ramp step (jogi
+  // across modes) instead of the ramp's theme-400. null -> use the ramp step (classic
   // sky / eDictus gray). Set only for real custom tenants so vivid warm brands
   // (e.g. a saturated orange) render true, not washed to the sky lightness profile.
 }
 
-// Reference accent hue of today's sky ramp; jogi rotates by 0 -> exact parity.
-const JOGI_ACCENT_HUE = 237
+// Reference accent hue of today's sky ramp; classic rotates by 0 -> exact parity.
+const CLASSIC_ACCENT_HUE = 237
 const CHROME_HUE = 261 // OKLCH hue of today's H218-HSL slate surfaces
 
 // Surface/region ladder: [cssVar, OKLCH L, OKLCH C] measured from tokens.css.
@@ -159,7 +159,7 @@ export function buildThemeTokens(spec: ThemeSpec, mode: ThemeMode = 'dark'): Rec
     out[name] = toTriplet(oklchToRgb(mapL(L), C * spec.chromeChroma, hue))
   }
 
-  const delta = spec.accentHue - JOGI_ACCENT_HUE
+  const delta = spec.accentHue - CLASSIC_ACCENT_HUE
   let rampBrand: Rgb = CONTRAST_LIGHT
   let rampHover: Rgb = CONTRAST_LIGHT
   for (const [step, L, C, baseHue] of ACCENT_SPECS) {
@@ -172,7 +172,7 @@ export function buildThemeTokens(spec: ThemeSpec, mode: ThemeMode = 'dark'): Rec
   // --brand is the prominent fill/text/active color. A pinned tenant color is the
   // tenant's true identity, kept CONSTANT across modes (brand-contrast adapts for
   // AA); only when there's no pinned color does it fall back to the ramp's
-  // theme-400 (jogi sky reflects light/dark; eDictus gray).
+  // theme-400 (classic sky reflects light/dark; eDictus gray).
   const brand = spec.brand ?? rampBrand
   const brandHover = spec.brand ? shiftLightness(spec.brand, -0.06) : rampHover
   out['--brand'] = toTriplet(brand)
@@ -188,12 +188,12 @@ export function buildThemeTokens(spec: ThemeSpec, mode: ThemeMode = 'dark'): Rec
 }
 
 // Decided presets (see lib/branding/CLAUDE.md). Hues are irrelevant where the
-// matching chroma is 0 but kept at the jogi values for clarity.
+// matching chroma is 0 but kept at the classic values for clarity.
 export const THEME_SPECS = {
-  // Client fallback: today's Jogi blue. Reproduces styles/tokens.css.
-  jogi: { chromeHue: CHROME_HUE, chromeChroma: 1, accentHue: JOGI_ACCENT_HUE, accentChroma: 1 },
+  // Client fallback: today's classic blue. Reproduces styles/tokens.css.
+  classic: { chromeHue: CHROME_HUE, chromeChroma: 1, accentHue: CLASSIC_ACCENT_HUE, accentChroma: 1 },
   // Default for companies with no (valid) custom colors: fully neutral gray.
-  edictus: { chromeHue: CHROME_HUE, chromeChroma: 0, accentHue: JOGI_ACCENT_HUE, accentChroma: 0 },
+  edictus: { chromeHue: CHROME_HUE, chromeChroma: 0, accentHue: CLASSIC_ACCENT_HUE, accentChroma: 0 },
 } as const satisfies Record<string, ThemeSpec>
 
 // Custom tenant: neutral-gray chrome + accent rotated to their brand hue. `brand`
@@ -211,8 +211,8 @@ export const customSpec = (accentHue: number): ThemeSpec => ({
 //   no company        -> neutral gray (pre-tenant / white-label default)
 //   company, no hue    -> eDictus gray (null/malformed/achromatic colors)
 //   company, valid hue -> custom accent at their hue, --brand pinned to the color
-// The Jogi-blue preset is no longer a fallback here — it is only reached when a
-// caller explicitly asks for THEME_SPECS.jogi.
+// The classic-blue preset is no longer a fallback here — it is only reached when a
+// caller explicitly asks for THEME_SPECS.classic.
 export function resolveThemeSpec(primaryColor: string | null | undefined, hasCompany: boolean): ThemeSpec {
   if (!hasCompany) return THEME_SPECS.edictus
   const hue = hexToHue(primaryColor)

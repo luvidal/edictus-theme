@@ -18,7 +18,7 @@ const L_MIN = 0.13
 const L_MAX = 0.97
 
 // Full lightness ladder (OKLCH L), darkest..lightest, equal perceptual steps.
-// Jogi's current dark tokens occupy the lower half; the full range exists so
+// The classic preset's current dark tokens occupy the lower half; the full range exists so
 // light mode = reflection, not a separate hand-built palette.
 export const DEFAULT_L_STOPS: number[] = Array.from(
   { length: RAMP_STOPS },
@@ -112,9 +112,9 @@ export function contrastRatio(a: Rgb, b: Rgb): number {
 // Chrome-ramp params per theme preset. Custom companies override `chromeHue`
 // from `primary_color`; chroma 0 = neutral gray.
 export const THEME_PRESETS = {
-  // Current Jogi scheme (blue) — assigned to the client role.
-  jogi: { chromeHue: 218, chromeChroma: 0.03 },
-  // Default for companies with no custom colors (eDictus): Jogi's ladder with
+  // Current classic scheme (blue) — assigned to the client role.
+  classic: { chromeHue: 218, chromeChroma: 0.03 },
+  // Default for companies with no custom colors (eDictus): the classic preset's ladder with
   // the hue removed -> neutral gray.
   edictus: { chromeHue: 0, chromeChroma: 0 },
 } as const

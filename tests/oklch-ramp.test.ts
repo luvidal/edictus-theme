@@ -27,7 +27,7 @@ const TEXT_PAIRS: [keyof typeof ROLES, keyof typeof ROLES][] = [
   ['textSecondary', 'surface'],
 ]
 
-const blue = () => buildRamp(THEME_PRESETS.jogi.chromeHue, THEME_PRESETS.jogi.chromeChroma)
+const blue = () => buildRamp(THEME_PRESETS.classic.chromeHue, THEME_PRESETS.classic.chromeChroma)
 
 describe('oklch ramp generator', () => {
   it('chroma 0 produces a neutral gray ramp (R=G=B at every stop)', () => {

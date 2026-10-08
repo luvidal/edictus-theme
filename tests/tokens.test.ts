@@ -6,9 +6,9 @@ import { contrastRatio, relLuminance, type Rgb } from '../src/oklch-ramp'
 const parse = (triplet: string): Rgb => triplet.split(' ').map(Number) as unknown as Rgb
 const maxDelta = (a: Rgb, b: Rgb) => Math.max(...a.map((x, i) => Math.abs(x - b[i])))
 
-// The canonical Jogi-blue ramp — the output of the named `jogi` preset. No longer
+// The canonical classic-blue ramp — the output of the named `classic` preset. No longer
 // the styles/tokens.css `:root` default (that is now neutral gray, see GRAY below);
-// kept here so the jogi preset's generator output stays pinned.
+// kept here so the classic preset's generator output stays pinned.
 const TODAY: Record<string, Rgb> = {
   '--surface-0': [22, 36, 61],
   '--surface-1': [39, 52, 76],
@@ -33,8 +33,8 @@ const TODAY: Record<string, Rgb> = {
   '--brand-hover': [14, 165, 233],
 }
 
-describe('jogi preset — canonical blue ramp (generator regression)', () => {
-  const tokens = buildThemeTokens(THEME_SPECS.jogi)
+describe('classic preset — canonical blue ramp (generator regression)', () => {
+  const tokens = buildThemeTokens(THEME_SPECS.classic)
 
   it('accent ramp + brand match exactly', () => {
     for (const key of Object.keys(TODAY)) {
@@ -120,7 +120,7 @@ describe('light two-band remap — chrome stays clearly grayer than the surfaces
   const surfaceKeys = ['--surface-0', '--surface-1', '--surface-2', '--surface-3', '--surface-4']
   const specs = [
     ['edictus', THEME_SPECS.edictus],
-    ['jogi', THEME_SPECS.jogi],
+    ['classic', THEME_SPECS.classic],
     ['orange-brand', resolveThemeSpec('#fd5d03', true)],
   ] as const
 
@@ -146,9 +146,9 @@ describe('light two-band remap — chrome stays clearly grayer than the surfaces
 })
 
 describe('brand-contrast passes AA for every shipped accent hue', () => {
-  // jogi sky, edictus gray, and a sweep of tenant hues incl. a saturated orange (#fd5d03).
+  // classic sky, edictus gray, and a sweep of tenant hues incl. a saturated orange (#fd5d03).
   const specs = [
-    THEME_SPECS.jogi,
+    THEME_SPECS.classic,
     THEME_SPECS.edictus,
     ...[0, 30, 60, 120, 180, 240, 300, hexToHue('#fd5d03')!].map(customSpec),
   ]
@@ -164,7 +164,7 @@ describe('brand-contrast passes AA for every shipped accent hue', () => {
 
 describe('--brand-on: conventional white on saturated brand fills, pale-safe', () => {
   const sweep = [
-    THEME_SPECS.jogi,
+    THEME_SPECS.classic,
     THEME_SPECS.edictus,
     ...[0, 30, 60, 120, 180, 240, 300, hexToHue('#fd5d03')!].map(customSpec),
   ]
@@ -194,7 +194,7 @@ describe('--brand-on: conventional white on saturated brand fills, pale-safe', (
   })
 })
 
-// The jogi preset's light output — pins buildThemeTokens(jogi, 'light'). No longer
+// The classic preset's light output — pins buildThemeTokens(classic, 'light'). No longer
 // the styles/tokens.css light default (that is now neutral gray, see GRAY_LIGHT).
 const TODAY_LIGHT: Record<string, Rgb> = {
   '--theme-50': [3, 7, 10],
@@ -231,9 +231,9 @@ const TODAY_LIGHT: Record<string, Rgb> = {
   '--brand-glow': [0, 64, 116],
 }
 
-describe('jogi preset light output stays pinned (generator regression)', () => {
-  const tokens = buildThemeTokens(THEME_SPECS.jogi, 'light')
-  it('every generated light var matches the pinned jogi value exactly', () => {
+describe('classic preset light output stays pinned (generator regression)', () => {
+  const tokens = buildThemeTokens(THEME_SPECS.classic, 'light')
+  it('every generated light var matches the pinned classic value exactly', () => {
     for (const key of Object.keys(TODAY_LIGHT)) {
       expect(maxDelta(parse(tokens[key]), TODAY_LIGHT[key]), key).toBe(0)
     }
@@ -254,7 +254,7 @@ describe('edictus gray stays achromatic in light mode too', () => {
 
 describe('text + brand contrast pass AA in BOTH modes', () => {
   const specs = [
-    THEME_SPECS.jogi,
+    THEME_SPECS.classic,
     THEME_SPECS.edictus,
     ...[0, 30, 60, 120, 180, 240, 300, hexToHue('#fd5d03')!].map(customSpec),
   ]
@@ -300,8 +300,8 @@ describe('a custom tenant color pins --brand to the REAL color (not the washed r
     expect(relLuminance(parse(t['--brand-hover']))).toBeLessThan(relLuminance(parse(t['--brand'])))
   })
 
-  it('jogi/edictus have no pinned color → --brand stays ramp-based (parity preserved)', () => {
-    expect(buildThemeTokens(THEME_SPECS.jogi, 'dark')['--brand']).toBe('56 189 248')
+  it('classic/edictus have no pinned color → --brand stays ramp-based (parity preserved)', () => {
+    expect(buildThemeTokens(THEME_SPECS.classic, 'dark')['--brand']).toBe('56 189 248')
     const [r, g, b] = parse(buildThemeTokens(THEME_SPECS.edictus, 'dark')['--brand'])
     expect(r).toBe(g)
     expect(g).toBe(b)
@@ -309,7 +309,7 @@ describe('a custom tenant color pins --brand to the REAL color (not the washed r
 })
 
 describe('resolveThemeSpec — single fallback matrix', () => {
-  it('no company -> neutral gray (eDictus), not Jogi blue', () => {
+  it('no company -> neutral gray (eDictus), not classic blue', () => {
     expect(resolveThemeSpec(null, false)).toBe(THEME_SPECS.edictus)
     expect(resolveThemeSpec('#fd5d03', false)).toBe(THEME_SPECS.edictus)
   })

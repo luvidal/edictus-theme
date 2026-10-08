@@ -67,9 +67,9 @@ function contrastRatio(a, b) {
   return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
 }
 var THEME_PRESETS = {
-  // Current Jogi scheme (blue) — assigned to the client role.
-  jogi: { chromeHue: 218, chromeChroma: 0.03 },
-  // Default for companies with no custom colors (eDictus): Jogi's ladder with
+  // Current classic scheme (blue) — assigned to the client role.
+  classic: { chromeHue: 218, chromeChroma: 0.03 },
+  // Default for companies with no custom colors (eDictus): the classic preset's ladder with
   // the hue removed -> neutral gray.
   edictus: { chromeHue: 0, chromeChroma: 0 }
 };
@@ -100,7 +100,7 @@ function hexToBrand(value) {
 }
 
 // src/tokens.ts
-var JOGI_ACCENT_HUE = 237;
+var CLASSIC_ACCENT_HUE = 237;
 var CHROME_HUE = 261;
 var SURFACE_SPECS = [
   ["--surface-0", 0.2615, 0.051],
@@ -173,7 +173,7 @@ function buildThemeTokens(spec, mode = "dark") {
   for (const [name, L, C, hue] of CHROME_TEXT_SPECS) {
     out[name] = toTriplet(oklchToRgb(mapL(L), C * spec.chromeChroma, hue));
   }
-  const delta = spec.accentHue - JOGI_ACCENT_HUE;
+  const delta = spec.accentHue - CLASSIC_ACCENT_HUE;
   let rampBrand = CONTRAST_LIGHT;
   let rampHover = CONTRAST_LIGHT;
   for (const [step, L, C, baseHue] of ACCENT_SPECS) {
@@ -194,10 +194,10 @@ function buildThemeTokens(spec, mode = "dark") {
   return out;
 }
 var THEME_SPECS = {
-  // Client fallback: today's Jogi blue. Reproduces styles/tokens.css.
-  jogi: { chromeHue: CHROME_HUE, chromeChroma: 1, accentHue: JOGI_ACCENT_HUE, accentChroma: 1 },
+  // Client fallback: today's classic blue. Reproduces styles/tokens.css.
+  classic: { chromeHue: CHROME_HUE, chromeChroma: 1, accentHue: CLASSIC_ACCENT_HUE, accentChroma: 1 },
   // Default for companies with no (valid) custom colors: fully neutral gray.
-  edictus: { chromeHue: CHROME_HUE, chromeChroma: 0, accentHue: JOGI_ACCENT_HUE, accentChroma: 0 }
+  edictus: { chromeHue: CHROME_HUE, chromeChroma: 0, accentHue: CLASSIC_ACCENT_HUE, accentChroma: 0 }
 };
 var customSpec = (accentHue) => ({
   chromeHue: CHROME_HUE,
